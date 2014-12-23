@@ -1,5 +1,4 @@
 'use strict';
-
 var fs = require('fs');
 
 function validateModelName(req,res,next,name){
@@ -68,12 +67,18 @@ function modifyItem(req,res){
 	if(!fs.existsSync(dir)){
 		return res.status(404).jsonp({message:'Not Found'});
 	}
-	var id = req.params.id/1;
+
+	var id = req.params.id;
 	if(req.body.id != req.params.id){
 		res.status(400).jsonp({message:'Invalid Request'});
 	}
-	fs.writeFileSync(dir+'/'+id+'.json', JSON.stringify(req.body));
-	res.jsonp(req.body);
+	req.body.id = req.body.id/1;
+	if(fs.existsSync(dir+'/'+id+'.json')){
+		fs.writeFileSync(dir+'/'+id+'.json', JSON.stringify(req.body));
+		res.jsonp(req.body);
+	} else {
+		res.status(400).jsonp({message:'No item found with given Id'});
+	}
 }
 
 module.exports = function(app) {
