@@ -29,3 +29,27 @@ Start server
   
   node server.js
 ```
+
+
+How it Works,
+
+1. Creating new Item
+POST request : Post data should not have Id
+  ```
+  POST /users 
+  ```
+
+2. Retrive item with id 1
+  ```
+  GET /users/1 
+  ```
+
+3. Modify Item  - Post/Put data must have matching ID
+  ```
+  PUT or POST  /users/1
+  ```
+
+
+
+
+
