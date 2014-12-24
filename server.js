@@ -17,7 +17,6 @@ app.set('view engine', 'hbs');
 
 
 function enableCORS(req, res, next) {
-    console.log('CORS Middleware')
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
