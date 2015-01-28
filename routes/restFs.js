@@ -41,7 +41,7 @@ function createItem(req,res){
 	var dir = './data/'+name;
 	var fileName;
 	if(req.body.id){
-		res.status(400).jsonp({message:'You can not have id while creating item'});
+		return res.status(400).jsonp({message:'You can not have id while creating item'});
 	}
 	if(!fs.existsSync(dir)){
 		fs.mkdirSync(dir);
@@ -49,12 +49,17 @@ function createItem(req,res){
 		req.body.id = 1;
 	} else {
 		var files = getFiles(dir);
-		req.body.id = 1 + parseInt(files[files.length-1]);
+		var tmp = parseInt(files[files.length-1]);
+		if(!tmp){
+			tmp=0
+		}
+		req.body.id = 1 + tmp;
 		fileName = req.body.id + '.json';
 	}
 	fs.writeFileSync(dir+'/'+fileName, JSON.stringify(req.body));
 	res.jsonp(req.body);
 }
+
 
 /*Get items handled by static router. if here its not found*/
 function getItem(req,res){
@@ -70,7 +75,7 @@ function modifyItem(req,res){
 
 	var id = req.params.id;
 	if(req.body.id != req.params.id){
-		res.status(400).jsonp({message:'Invalid Request'});
+		return res.status(400).jsonp({message:'Invalid Request'});
 	}
 	req.body.id = req.body.id/1;
 	if(fs.existsSync(dir+'/'+id+'.json')){
@@ -81,6 +86,23 @@ function modifyItem(req,res){
 	}
 }
 
+function deleteItem(req,res){
+	var name = req.params.modelName;
+	var dir = './data/'+name;
+	if(!fs.existsSync(dir)){
+		return res.status(404).jsonp({message:'Not Found'});
+	}
+	var id = req.params.id;
+	if(!id){
+		return res.status(400).jsonp({message:'Invalid Request'});
+	}
+	if(fs.existsSync(dir+'/'+id+'.json')){
+		fs.unlinkSync(dir+'/'+id+'.json');
+		res.jsonp({success:true});
+	} else {
+		res.status(400).jsonp({message:'No item found with given Id'});
+	}
+}
 module.exports = function(app) {
 	app.route('/:modelName')
 		.get(listItems)
@@ -89,5 +111,6 @@ module.exports = function(app) {
 		.get(getItem)
 		.post(modifyItem)
 		.put(modifyItem);
+		.delete(deleteItem);
 	app.param('modelName',validateModelName);
 };
