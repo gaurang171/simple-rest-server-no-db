@@ -110,7 +110,7 @@ module.exports = function(app) {
 	app.route('/:modelName/:id')
 		.get(getItem)
 		.post(modifyItem)
-		.put(modifyItem);
+		.put(modifyItem)
 		.delete(deleteItem);
 	app.param('modelName',validateModelName);
 };
