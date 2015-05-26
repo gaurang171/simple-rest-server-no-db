@@ -49,7 +49,10 @@ POST request : Post data should not have Id
   PUT or POST  /users/1
   ```
 
-
+4. Delete ite
+  ```
+  DELETE   /users/1
+  ```
 
 
 
