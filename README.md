@@ -6,6 +6,11 @@ Simple Rest Server without any Database. Data stored to files. No database requr
 You must have nodejs install to run this 
 ```
   git clone https://github.com/gaurang171/simple-rest-server-no-db.git
+```  
+  if forked form this one. 
+
+```  
+  git clone https://github.com/YOUR_USERNAME/simple-rest-server-no-db.git
 ```
 or you can download and extract the zip file. 
 
@@ -39,17 +44,22 @@ POST request : Post data should not have Id
   POST /users 
   ```
 
-2. Retrive item with id 1
+2. Retrive all items
+  ```
+  GET /users 
+  ```
+
+3. Retrive item with id 1
   ```
   GET /users/1 
   ```
 
-3. Modify Item  - Post/Put data must have matching ID
+4. Modify Item  - Post/Put data must have matching ID
   ```
   PUT or POST  /users/1
   ```
 
-4. Delete ite
+5. Delete ite
   ```
   DELETE   /users/1
   ```
